@@ -153,10 +153,10 @@ def generate_astrological_reading(data):
         if all(key in data for key in ['male_date', 'male_location', 'female_date', 'female_location']):
             corpus = analyze_synastry_full(
                 birthday1=datetime.strptime(data['male_date'], "%Y-%m-%d"),
-                location1=data['male_location'],
+                location1=data.get('male_location', 'Unknown'),
                 gender1="male",
                 birthday2=datetime.strptime(data['female_date'], "%Y-%m-%d"),
-                location2=data['female_location'],
+                location2=data.get('female_location', data.get('male_location', 'Unknown')),
                 gender2="female",
                 time1=datetime.strptime(male_time, "%H:%M").time(),
                 time2=datetime.strptime(female_time, "%H:%M").time()
@@ -164,7 +164,7 @@ def generate_astrological_reading(data):
             print(f"{corpus}")
         else:
             # Use partial or basic analysis if full data is not available
-            if 'male_location' in data or 'female_location' in data:
+            if 'male_location' in data and 'female_location' in data:
                 corpus = analyze_synastry_partial(
                     birthday1=datetime.strptime(data['male_date'], "%Y-%m-%d"),
                     location1=data.get('male_location', 'Unknown'),
@@ -364,6 +364,8 @@ def generate_reading(chat_id):
         # Reset state and show main menu
         user_states[chat_id] = UserState.IDLE
         user_data[chat_id] = {}
+        reduce_credit(chat_id)
+        credits = get_user_credits(chat_id)
         
         welcome_msg = f"\U0001F31F Reading generated! You now have {credits} credits left. Would you like another reading?"
         send_temp_message(chat_id, welcome_msg, reply_markup=create_main_menu())
@@ -372,12 +374,9 @@ def generate_reading(chat_id):
         send_temp_message(chat_id, "❌ Sorry, there was an error generating your reading. Please try again.")
         print(f"Error generating reading: {e}")
 
-@bot.message_handler(commands=['start'])
-def send_welcome(message):
-    chat_id = message.chat.id
-    user_states[chat_id] = UserState.IDLE
-    user_data[chat_id] = {}
-    
+def send_banner_with_menu(chat_id):
+    """Send banner image with welcome message and menu"""
+    # First register/login user
     user = register_or_login_user(chat_id)
     credits = user['credits']
     
@@ -389,7 +388,27 @@ def send_welcome(message):
                    "❤️ Compatibility Reading\n\n"
                    "Please select a reading type:")
     
-    send_temp_message(chat_id, welcome_msg, reply_markup=create_main_menu())
+    # Send banner with welcome message
+    banner_url = "https://boldai-bucket.s3.us-east-1.amazonaws.com/banner/GbTf-2faIAA5ezg.jpeg"
+    try:
+        msg = bot.send_photo(
+            chat_id=chat_id,
+            photo=banner_url,
+            caption=welcome_msg,
+            reply_markup=create_main_menu()
+        )
+        store_temp_message(chat_id, msg.message_id)
+    except Exception as e:
+        print(f"Error sending banner: {e}")
+        # Fallback to text-only message if banner fails
+        send_temp_message(chat_id, welcome_msg, reply_markup=create_main_menu())
+
+@bot.message_handler(commands=['start'])
+def send_welcome(message):
+    chat_id = message.chat.id
+    user_states[chat_id] = UserState.IDLE
+    user_data[chat_id] = {}
+    send_banner_with_menu(chat_id)
 
 # Add these new functions to handle purchases
 def show_purchase_options(chat_id):
@@ -432,12 +451,10 @@ def handle_callback(call):
             # Return to optional inputs window
             show_optional_inputs(chat_id)
         else:
-            # Return to main menu
+            # Return to main menu with banner
             user_states[chat_id] = UserState.IDLE
             user_data[chat_id] = {}
-            welcome_msg = ("🌟 Welcome back! 🌟\n\n"
-                        "Please select a reading type:")
-            send_temp_message(chat_id, welcome_msg, reply_markup=create_main_menu())
+            send_banner_with_menu(chat_id)
         return
 
     if call.data.startswith("reading_"):
@@ -461,19 +478,19 @@ def handle_callback(call):
             show_input_menu(chat_id, "⏰ Please enter his birth time\n\nYou can enter:\n- Exact time (e.g., 14:30)\n- Approximate time (e.g., morning, afternoon)\n- General time (e.g., early morning, late night)")
         elif action == "male_location":
             user_states[chat_id] = UserState.AWAITING_MALE_LOCATION
-            show_input_menu(chat_id, "📍 Please enter his birth location")
+            show_input_menu(chat_id, "📍 Please enter his birth location (City, Country)")
         elif action == "female_time":
             user_states[chat_id] = UserState.AWAITING_FEMALE_TIME
             show_input_menu(chat_id, "⏰ Please enter her birth time\n\nYou can enter:\n- Exact time (e.g., 14:30)\n- Approximate time (e.g., morning, afternoon)\n- General time (e.g., early morning, late night)")
         elif action == "female_location":
             user_states[chat_id] = UserState.AWAITING_FEMALE_LOCATION
-            show_input_menu(chat_id, "📍 Please enter her birth location")
+            show_input_menu(chat_id, "📍 Please enter her birth location (City, Country)")
         elif action == "time":
             user_states[chat_id] = UserState.AWAITING_TIME
             show_input_menu(chat_id, "⏰ Please enter the time\n\nYou can enter:\n- Exact time (e.g., 14:30)\n- Approximate time (e.g., morning, afternoon)\n- General time (e.g., early morning, late night)")
         elif action == "location":
             user_states[chat_id] = UserState.AWAITING_LOCATION
-            show_input_menu(chat_id, "📍 Please enter the location")
+            show_input_menu(chat_id, "📍 Please enter the location (City, Country)")
 
     elif call.data == "generate":
         generate_reading(chat_id)
