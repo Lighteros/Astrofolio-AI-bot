@@ -1,0 +1,160 @@
+2024-11-09 23:08:41,384 - __main__ - INFO - Starting Astrology Bot...
+2024-11-09 23:08:41,386 - __main__ - INFO - Starting bot polling...
+2024-11-09 23:08:55,274 - __main__ - INFO - User 6974498798 started the bot
+2024-11-09 23:16:45,370 - __main__ - INFO - Starting bot polling...
+2024-11-09 23:45:39,372 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2024-11-09 23:45:49,582 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2024-11-09 23:45:57,553 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2024-11-09 23:46:20,789 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2024-11-09 23:46:30,559 - __main__ - INFO - Generating astrological reading for data: {'type': 'synastry', 'male_date': '1992-01-02', 'female_date': '1997-11-03', 'male_time': '17:36', 'male_location': 'Chicago, USA', 'female_time': '12:00', 'female_location': 'Orlando, USA'}
+2024-11-09 23:46:30,559 - __main__ - INFO - Generating synastry reading
+2024-11-09 23:46:30,560 - __main__ - INFO - Using full synastry analysis
+2024-11-09 23:46:31,528 - __main__ - INFO - Sending request to OpenAI
+2024-11-09 23:46:40,131 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2024-11-09 23:46:40,133 - __main__ - INFO - Successfully generated reading
+2024-11-10 00:01:35,047 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2024-11-10 00:01:48,769 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2024-11-10 00:01:53,279 - __main__ - INFO - Generating astrological reading for data: {'type': 'personal', 'date': '1994-02-22'}
+2024-11-10 00:01:53,280 - __main__ - INFO - Generating personal reading
+2024-11-10 00:01:53,280 - __main__ - INFO - Using basic natal chart analysis
+2024-11-10 00:01:53,280 - __main__ - INFO - Sending request to OpenAI
+2024-11-10 00:02:00,991 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2024-11-10 00:02:00,993 - __main__ - INFO - Successfully generated reading
+2024-11-10 00:02:16,472 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2024-11-10 00:02:20,595 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2024-11-10 00:02:28,987 - __main__ - INFO - Generating astrological reading for data: {'type': 'token', 'symbol': '♋', 'date': '2024-07-05', 'time': '00:00'}
+2024-11-10 00:02:28,987 - __main__ - INFO - Generating token reading
+2024-11-10 00:02:28,988 - __main__ - INFO - Sending request to OpenAI
+2024-11-10 00:02:29,733 - __main__ - INFO - Generating astrological reading for data: {'type': 'personal', 'date': '1997-11-03'}
+2024-11-10 00:02:29,734 - __main__ - INFO - Generating personal reading
+2024-11-10 00:02:29,734 - __main__ - INFO - Using basic natal chart analysis
+2024-11-10 00:02:29,734 - __main__ - INFO - Sending request to OpenAI
+2024-11-10 00:02:34,242 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2024-11-10 00:02:34,243 - __main__ - INFO - Successfully generated reading
+2024-11-10 00:02:37,655 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2024-11-10 00:02:37,656 - __main__ - INFO - Successfully generated reading
+2024-11-10 00:04:57,207 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2024-11-10 00:06:47,557 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2024-11-10 00:06:51,822 - __main__ - INFO - Generating astrological reading for data: {'type': 'personal', 'date': '1993-12-25', 'location': 'Malaysia', 'time': '21:00'}
+2024-11-10 00:06:51,822 - __main__ - INFO - Generating personal reading
+2024-11-10 00:06:51,822 - __main__ - INFO - Using full natal chart analysis
+2024-11-10 00:06:51,822 - __main__ - ERROR - Error generating reading: analyze_natal_chart_full() missing 2 required positional arguments: 'time' and 'city'
+Traceback (most recent call last):
+  File "/root/Astrofolio-AI-bot/astro.py", line 280, in generate_astrological_reading
+    corpus = analyze_natal_chart_full(...)  # Same parameters as before
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: analyze_natal_chart_full() missing 2 required positional arguments: 'time' and 'city'
+2024-11-10 00:07:30,617 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2024-11-10 00:08:02,290 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2024-11-10 00:08:08,498 - __main__ - INFO - Generating astrological reading for data: {'type': 'personal', 'date': '1993-12-25', 'location': 'Melaka, Malaysia', 'time': '21:00'}
+2024-11-10 00:08:08,498 - __main__ - INFO - Generating personal reading
+2024-11-10 00:08:08,498 - __main__ - INFO - Using full natal chart analysis
+2024-11-10 00:08:08,499 - __main__ - ERROR - Error generating reading: analyze_natal_chart_full() missing 2 required positional arguments: 'time' and 'city'
+Traceback (most recent call last):
+  File "/root/Astrofolio-AI-bot/astro.py", line 280, in generate_astrological_reading
+    corpus = analyze_natal_chart_full(...)  # Same parameters as before
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: analyze_natal_chart_full() missing 2 required positional arguments: 'time' and 'city'
+2024-11-10 00:08:38,072 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2024-11-10 00:08:42,502 - __main__ - INFO - Generating astrological reading for data: {'type': 'personal', 'date': '1993-12-25'}
+2024-11-10 00:08:42,503 - __main__ - INFO - Generating personal reading
+2024-11-10 00:08:42,503 - __main__ - INFO - Using basic natal chart analysis
+2024-11-10 00:08:42,503 - __main__ - INFO - Sending request to OpenAI
+2024-11-10 00:08:50,792 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2024-11-10 00:08:50,794 - __main__ - INFO - Successfully generated reading
+2024-11-10 00:09:08,018 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2024-11-10 00:09:10,242 - __main__ - INFO - Generating astrological reading for data: {'type': 'personal', 'date': '1996-08-24'}
+2024-11-10 00:09:10,242 - __main__ - INFO - Generating personal reading
+2024-11-10 00:09:10,242 - __main__ - INFO - Using basic natal chart analysis
+2024-11-10 00:09:10,242 - __main__ - INFO - Sending request to OpenAI
+2024-11-10 00:09:16,975 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2024-11-10 00:09:16,977 - __main__ - INFO - Successfully generated reading
+2024-11-10 00:10:46,132 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2024-11-10 00:10:51,932 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2024-11-10 00:10:58,896 - __main__ - INFO - Generating astrological reading for data: {'type': 'personal', 'date': '1996-11-03', 'time': '12:00', 'location': 'Orlando, USA'}
+2024-11-10 00:10:58,896 - __main__ - INFO - Generating personal reading
+2024-11-10 00:10:58,896 - __main__ - INFO - Using full natal chart analysis
+2024-11-10 00:10:58,896 - __main__ - ERROR - Error generating reading: analyze_natal_chart_full() missing 2 required positional arguments: 'time' and 'city'
+Traceback (most recent call last):
+  File "/root/Astrofolio-AI-bot/astro.py", line 280, in generate_astrological_reading
+    corpus = analyze_natal_chart_full(...)  # Same parameters as before
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: analyze_natal_chart_full() missing 2 required positional arguments: 'time' and 'city'
+2024-11-10 00:11:33,982 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2024-11-10 00:11:50,620 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2024-11-10 00:12:02,806 - __main__ - INFO - Generating astrological reading for data: {'type': 'personal', 'date': '1993-12-25', 'time': '21:30'}
+2024-11-10 00:12:02,806 - __main__ - INFO - Generating personal reading
+2024-11-10 00:12:02,806 - __main__ - INFO - Using basic natal chart analysis
+2024-11-10 00:12:02,806 - __main__ - INFO - Sending request to OpenAI
+2024-11-10 00:12:08,785 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2024-11-10 00:12:08,787 - __main__ - INFO - Successfully generated reading
+2024-11-10 00:31:52,747 - TeleBot - ERROR - Infinity polling: polling exited
+2024-11-10 00:31:52,748 - TeleBot - ERROR - Break infinity polling
+2024-11-10 00:32:29,619 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2024-11-10 00:32:31,720 - __main__ - INFO - Generating astrological reading for data: {'type': 'personal', 'date': '1997-11-03'}
+2024-11-10 00:32:31,720 - __main__ - INFO - Generating personal reading
+2024-11-10 00:32:31,720 - __main__ - INFO - Sending request to OpenAI
+2024-11-10 00:32:31,720 - __main__ - ERROR - Error generating reading: cannot access local variable 'prompt' where it is not associated with a value
+Traceback (most recent call last):
+  File "/root/Astrofolio-AI-bot/astro.py", line 292, in generate_astrological_reading
+    {"role": "user", "content": prompt}
+                                ^^^^^^
+UnboundLocalError: cannot access local variable 'prompt' where it is not associated with a value
+2024-11-10 00:32:44,485 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2024-11-10 00:32:47,725 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2024-11-10 00:32:50,073 - __main__ - INFO - Generating astrological reading for data: {'type': 'synastry', 'male_date': '1992-01-02', 'female_date': '1997-11-03'}
+2024-11-10 00:32:50,090 - __main__ - INFO - Generating synastry reading
+2024-11-10 00:32:50,090 - __main__ - ERROR - Error generating reading: 'date'
+Traceback (most recent call last):
+  File "/root/Astrofolio-AI-bot/astro.py", line 268, in generate_astrological_reading
+    birthday=datetime.strptime(data['date'], "%Y-%m-%d")
+                               ~~~~^^^^^^^^
+KeyError: 'date'
+2024-11-10 00:34:05,913 - TeleBot - ERROR - Infinity polling: polling exited
+2024-11-10 00:34:05,913 - TeleBot - ERROR - Break infinity polling
+2024-11-10 00:35:03,490 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2024-11-10 00:35:07,822 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2024-11-10 00:35:09,460 - __main__ - INFO - Generating astrological reading for data: {'type': 'synastry', 'male_date': '1997-11-03', 'female_date': '1992-01-02'}
+2024-11-10 00:35:09,460 - __main__ - INFO - Generating synastry reading
+2024-11-10 00:35:09,460 - __main__ - INFO - Using basic synastry analysis
+2024-11-10 00:35:09,460 - __main__ - ERROR - Error generating reading: analyze_synastry_basic() missing 3 required positional arguments: 'gender1', 'birthday2', and 'gender2'
+Traceback (most recent call last):
+  File "/root/Astrofolio-AI-bot/astro.py", line 260, in generate_astrological_reading
+    corpus = analyze_synastry_basic(...)  # Same parameters as before
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: analyze_synastry_basic() missing 3 required positional arguments: 'gender1', 'birthday2', and 'gender2'
+2024-11-10 18:44:30,992 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2024-11-10 18:44:40,747 - __main__ - INFO - Generating astrological reading for data: {'type': 'personal', 'date': '2003-07-22', 'location': 'Tokyo'}
+2024-11-10 18:44:40,748 - __main__ - INFO - Generating personal reading
+2024-11-10 18:44:40,748 - __main__ - INFO - Using full natal chart analysis
+2024-11-10 18:44:40,748 - __main__ - ERROR - Error generating reading: analyze_natal_chart_full() missing 2 required positional arguments: 'time' and 'city'
+Traceback (most recent call last):
+  File "/root/Astrofolio-AI-bot/astro.py", line 280, in generate_astrological_reading
+    corpus = analyze_natal_chart_full(...)  # Same parameters as before
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: analyze_natal_chart_full() missing 2 required positional arguments: 'time' and 'city'
+2024-11-10 18:47:57,007 - TeleBot - ERROR - Infinity polling: polling exited
+2024-11-10 18:47:57,008 - TeleBot - ERROR - Break infinity polling
+2024-11-10 18:48:12,444 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2024-11-10 18:48:15,386 - __main__ - INFO - Generating astrological reading for data: {'type': 'personal', 'date': '2003-07-22'}
+2024-11-10 18:48:15,386 - __main__ - INFO - Generating personal reading
+2024-11-10 18:48:15,386 - __main__ - INFO - Using basic natal chart analysis
+2024-11-10 18:48:15,390 - __main__ - INFO - Sending request to OpenAI
+2024-11-10 18:48:22,480 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2024-11-10 18:48:22,482 - __main__ - INFO - Successfully generated reading
+2024-11-10 18:48:41,986 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2024-11-10 18:48:47,091 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2024-11-10 18:48:49,667 - __main__ - INFO - Generating astrological reading for data: {'type': 'token', 'symbol': '$TALOR', 'date': '2023-09-22', 'time': '14:00'}
+2024-11-10 18:48:49,667 - __main__ - INFO - Generating token reading
+2024-11-10 18:48:49,668 - __main__ - INFO - Sending request to OpenAI
+2024-11-10 18:49:01,869 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2024-11-10 18:49:01,874 - __main__ - INFO - Successfully generated reading
+2024-11-10 18:49:13,467 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2024-11-10 18:49:17,221 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2024-11-10 18:49:23,033 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2024-11-10 18:49:31,943 - __main__ - INFO - Generating astrological reading for data: {'type': 'synastry', 'male_date': '2003-07-22', 'female_date': '2004-01-02', 'male_time': '06:00', 'female_location': 'Tokyo'}
+2024-11-10 18:49:31,943 - __main__ - INFO - Generating synastry reading
+2024-11-10 18:49:31,943 - __main__ - INFO - Using basic synastry analysis
+2024-11-10 18:49:31,946 - __main__ - INFO - Sending request to OpenAI
+2024-11-10 18:49:43,136 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2024-11-10 18:49:43,138 - __main__ - INFO - Successfully generated reading

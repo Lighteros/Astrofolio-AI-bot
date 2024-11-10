@@ -254,29 +254,15 @@ def generate_astrological_reading(data):
             else:
                 if 'male_location' in data and 'female_location' in data:
                     logger.info("Using partial synastry analysis")
+                    corpus = analyze_synastry_partial(...)  # Same parameters as before
                     corpus = analyze_synastry_partial(
-                        birthday1=datetime.strptime(data['male_date'], "%Y-%m-%d"),
-                        location1=data.get('male_location', 'Unknown'),
+                        birthday1=datetime.strptime(data["male_date"], "%Y-%m-%d"),
+                        location1=data.get("male_location", "Unknown"),
                         gender1="male",
-                        birthday2=datetime.strptime(data['female_date'], "%Y-%m-%d"),
-                        location2=data.get('female_location', 'Unknown'),
+                        birthday2=datetime.strptime(data["female_date"], "%Y-%m-%d"),
                         gender2="female",
-                        time1=datetime.strptime(male_time, "%H:%M").time(),
-                        time2=datetime.strptime(female_time, "%H:%M").time()
+                        time1=datetime.strptime(male_time, "%H:%M").time()
                     )
-                else:
-                    logger.info("Using basic synastry analysis")
-                    corpus = analyze_synastry_basic(
-                        birthday1=datetime.strptime(data['male_date'], "%Y-%m-%d"),
-                        gender1="male",
-                        birthday2=datetime.strptime(data['female_date'], "%Y-%m-%d"),
-                        gender2="female"
-                    )
-            
-            prompt = SYNASTRY_PROMPT.format(corpus=corpus)
-
-        elif reading_type == "token":
-            logger.info("Generating token reading")
             time = parse_approximate_time(data.get('time', '12:00'))
             corpus = analyze_natal_chart_basic(
                 birthday=datetime.strptime(data['date'], "%Y-%m-%d")
@@ -291,18 +277,12 @@ def generate_astrological_reading(data):
             time = parse_approximate_time(data.get('time', '12:00'))
             if 'location' in data:
                 logger.info("Using full natal chart analysis")
+                corpus = analyze_natal_chart_full(...)  # Same parameters as before
                 corpus = analyze_natal_chart_full(
-                    birthday=datetime.strptime(data['date'], "%Y-%m-%d"),
-                    time=datetime.strptime(time, "%H:%M").time(),
-                    city=data['location']
+                    birthday=datetime.strptime(data["date"], "%Y-%m-%d"),
+                    time=data.get("time", "12:00"),
+                    city=data.get("location", "Unknown")
                 )
-            else:
-                logger.info("Using basic natal chart analysis")
-                corpus = analyze_natal_chart_basic(
-                    birthday=datetime.strptime(data['date'], "%Y-%m-%d")
-                )
-            
-            prompt = PERSONAL_PROMPT.format(corpus=corpus)
 
         logger.info("Sending request to OpenAI")
         response = client.chat.completions.create(
