@@ -162,12 +162,67 @@ def send_temp_message(chat_id, text, reply_markup=None):
     msg = bot.send_message(chat_id, text, reply_markup=reply_markup)
     store_temp_message(chat_id, msg.message_id)
     return msg
+def split_long_message(text, max_length=4096):
+    """Split long message into chunks that fit Telegram's message length limit"""
+    if len(text) <= max_length:
+        return [text]
+        
+    # Split on paragraph breaks first
+    parts = []
+    current_part = ""
+    paragraphs = text.split('\n\n')
+    
+    for paragraph in paragraphs:
+        # If adding this paragraph would exceed limit
+        if len(current_part + paragraph + '\n\n') > max_length:
+            # If current paragraph itself is too long
+            if len(paragraph) > max_length:
+                # Split paragraph on sentences
+                sentences = paragraph.split('. ')
+                for sentence in sentences:
+                    if len(current_part + sentence + '. ') > max_length:
+                        if current_part:
+                            parts.append(current_part.strip())
+                        current_part = sentence + '. '
+                    else:
+                        current_part += sentence + '. '
+            else:
+                # Save current part and start new one
+                if current_part:
+                    parts.append(current_part.strip())
+                current_part = paragraph + '\n\n'
+        else:
+            current_part += paragraph + '\n\n'
+    
+    # Add any remaining content
+    if current_part:
+        parts.append(current_part.strip())
+        
+    return parts
 
 def send_output_message(chat_id, text, parse_mode=None):
-    """Send permanent message (readings) and store its ID"""
-    msg = bot.send_message(chat_id, text, parse_mode=parse_mode)
-    store_output_message(chat_id, msg.message_id)
-    return msg
+    """Send permanent message (readings) and store its ID, handling long messages"""
+    # Split message if too long
+    message_parts = split_long_message(text)
+    sent_messages = []
+    
+    try:
+        for part in message_parts:
+            msg = bot.send_message(chat_id, part, parse_mode=parse_mode)
+            store_output_message(chat_id, msg.message_id)
+            sent_messages.append(msg)
+            # Add small delay between messages to avoid rate limiting
+            time.sleep(0.1)
+        return sent_messages[-1] if sent_messages else None
+    except Exception as e:
+        logger.error(f"Error sending message: {str(e)}", exc_info=True)
+        # Try sending without parse_mode if that was the issue
+        if parse_mode:
+            try:
+                return send_output_message(chat_id, text, parse_mode=None)
+            except Exception as e2:
+                logger.error(f"Error sending message without parse_mode: {str(e2)}", exc_info=True)
+                raise
 
 def create_main_menu():
     """Create the main menu with reading type options"""
@@ -211,18 +266,6 @@ def parse_time_with_gpt(text):
 
 from datetime import datetime
 
-def parse_approximate_time(time_str):
-    time_map = {
-        "morning": "09:00",
-        "early morning": "07:00",
-        "afternoon": "14:00",
-        "evening": "19:00",
-        "early evening": "17:00",
-        "night": "22:00",
-        "late night": "23:59"
-    }
-    return time_map.get(time_str.lower(), "12:00")  # Default to noon if not found
-
 def generate_astrological_reading(data):
     """Generate astrological reading using the appropriate script and gpt-4o"""
     logger.info(f"Generating astrological reading for data: {data}")
@@ -235,10 +278,11 @@ def generate_astrological_reading(data):
             female_time = data.get('female_time', '12:00')
             
             if not male_time.count(':'):
-                male_time = parse_approximate_time(male_time)
+                male_time = parse_time_with_gpt(male_time)
             if not female_time.count(':'):
-                female_time = parse_approximate_time(female_time)
+                female_time = parse_time_with_gpt(female_time)
 
+            print(f"Male time: {male_time}, Female time: {female_time}, Male Location: {data['male_location']}, Female Location: {data['female_location']}, Male Time: {male_time}, Female Time: {female_time}")
             if all(key in data for key in ['male_date', 'male_location', 'female_date', 'female_location']):
                 logger.info("Using full synastry analysis")
                 corpus = analyze_synastry_full(
@@ -252,17 +296,14 @@ def generate_astrological_reading(data):
                     time2=datetime.strptime(female_time, "%H:%M").time()
                 )
             else:
-                if 'male_location' in data and 'female_location' in data:
+                if 'male_location' in data and 'female_location' in data and 'male_time' in data:
                     logger.info("Using partial synastry analysis")
                     corpus = analyze_synastry_partial(
                         birthday1=datetime.strptime(data['male_date'], "%Y-%m-%d"),
                         location1=data.get('male_location', 'Unknown'),
                         gender1="male",
                         birthday2=datetime.strptime(data['female_date'], "%Y-%m-%d"),
-                        location2=data.get('female_location', 'Unknown'),
                         gender2="female",
-                        time1=datetime.strptime(male_time, "%H:%M").time(),
-                        time2=datetime.strptime(female_time, "%H:%M").time()
                     )
                 else:
                     logger.info("Using basic synastry analysis")
@@ -277,7 +318,7 @@ def generate_astrological_reading(data):
 
         elif reading_type == "token":
             logger.info("Generating token reading")
-            time = parse_approximate_time(data.get('time', '12:00'))
+            time = parse_time_with_gpt(data.get('time', '12:00'))
             corpus = analyze_natal_chart_basic(
                 birthday=datetime.strptime(data['date'], "%Y-%m-%d")
             )
@@ -288,7 +329,7 @@ def generate_astrological_reading(data):
 
         else:  # personal reading
             logger.info("Generating personal reading")
-            time = parse_approximate_time(data.get('time', '12:00'))
+            time = parse_time_with_gpt(data.get('time', '12:00'))
             if 'location' in data:
                 logger.info("Using full natal chart analysis")
                 corpus = analyze_natal_chart_full(
@@ -424,8 +465,13 @@ def generate_reading(chat_id):
         # Delete generating message
         cleanup_temp_messages(chat_id)
         
-        # Send the reading
-        send_output_message(chat_id, reading, parse_mode='Markdown')
+        try:
+            # Try sending with markdown first
+            send_output_message(chat_id, reading, parse_mode='Markdown')
+        except Exception as e:
+            logger.error(f"Error sending with markdown: {str(e)}", exc_info=True)
+            # If markdown fails, try sending without formatting
+            send_output_message(chat_id, reading)
         
         # Reset state and show main menu
         user_states[chat_id] = UserState.IDLE
@@ -437,8 +483,8 @@ def generate_reading(chat_id):
         send_temp_message(chat_id, welcome_msg, reply_markup=create_main_menu())
         
     except Exception as e:
+        logger.error(f"Error in generate_reading: {str(e)}", exc_info=True)
         send_temp_message(chat_id, "❌ Sorry, there was an error generating your reading. Please try again.")
-        print(f"Error generating reading: {e}")
 
 def send_banner_with_menu(chat_id):
     """Send banner image with welcome message and menu"""
